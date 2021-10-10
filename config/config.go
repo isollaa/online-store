@@ -1,0 +1,69 @@
+package config
+
+import (
+	"online-store/config/migrate"
+
+	"fmt"
+	"os"
+
+	_ "github.com/jinzhu/gorm/dialects/mysql"
+	"github.com/spf13/viper"
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
+)
+
+var Orm *gorm.DB
+var Token string
+
+func init() {
+	loadEnvVars()
+	connectDB()
+	migrate.AutoMigrate(Orm)
+}
+
+func loadEnvVars() {
+	viper.SetEnvPrefix("sagara")
+	errBind := viper.BindEnv("env")
+
+	if errBind != nil {
+		panic(fmt.Errorf(errBind.Error()))
+	}
+
+	currentDirectory, _ := os.Getwd()
+
+	viper.AddConfigPath(fmt.Sprintf("%s/config/", currentDirectory))
+	viper.SetConfigName("env.json")
+	viper.SetConfigType("json")
+
+	errRead := viper.ReadInConfig()
+
+	if errRead != nil {
+		panic(fmt.Errorf("Fatal error config file: %s", errRead.Error()))
+	}
+
+	Token = viper.GetString("token")
+}
+
+func connectDB() {
+	conf := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8&parseTime=True&loc=Local",
+		viper.GetString("database.username"),
+		viper.GetString("database.password"),
+		viper.GetString("database.host"),
+		viper.GetInt("database.port"),
+		viper.GetString("database.schema"),
+	)
+
+	db, err := gorm.Open(
+		mysql.Open(conf),
+	)
+	if err != nil {
+		panic("failed to connect to database")
+	}
+
+	if viper.GetBool("database.debug_mode") {
+		Orm = db.Debug()
+		return
+	}
+
+	Orm = db
+}
