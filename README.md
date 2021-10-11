@@ -15,7 +15,7 @@ Based on the stated facts above, there is a thing that might be the source of is
 #
 
 # solution
-- make sure to lock product on each request, so when a request is made simultaneously, the user will be forced to wait for each other to get the real time data
+- make sure to lock product on each request, so when a request is made simultaneously, the user will be forced to wait for each other to get and update the real time data
 #
 
 # how to run
