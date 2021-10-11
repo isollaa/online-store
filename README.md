@@ -32,6 +32,6 @@ password : "admin"
 ## unit-test
 - open test package
 - make sure there is item on table ``item``
-- if table ``item`` is empty, create dummt item on test/item package and test ``TestCreateItem()`` function
+- if table ``item`` is empty, create dummy item on ``test/item`` package and test ``TestCreateItem()`` function
 - move to ``test/cart`` and test ``TestCreateCart()`` function
 - done
