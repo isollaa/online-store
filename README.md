@@ -11,7 +11,7 @@ After checking in with our Customer Service and Order Processing departments, we
 # analysis
 Based on the stated facts above, there is a thing that might be the source of issue:
 
-- there is a possibility that users get product availability information in real time because the number of requests that affect product stock occurs very quickly and almost simultaneously
+- there is a possibility that users get miss product availability information in real time because the number of requests that affect product stock occurs very quickly and almost simultaneously
 #
 
 # solution
