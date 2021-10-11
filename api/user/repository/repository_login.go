@@ -14,6 +14,7 @@ type LoginContract interface {
 	Validate(db *gorm.DB, input *entity.User) (err error)
 }
 
+//inject tb user if it doesn't have user with username: "admin", password: "admin"
 func (repo Repository) InjectAdmin(db *gorm.DB) (err error) {
 	users := []entity.User{}
 	user := entity.User{
@@ -30,6 +31,7 @@ func (repo Repository) InjectAdmin(db *gorm.DB) (err error) {
 	}
 
 	if len(users) <= 0 {
+		//do inser ignore to prefent multiply create
 		if err = db.
 			Clauses(clause.Insert{Modifier: "IGNORE"}).
 			Create(&user).Error; err != nil {

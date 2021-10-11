@@ -67,6 +67,7 @@ func (repo Repository) Create(db *gorm.DB, input entity.Item) (err error) {
 }
 
 func (repo Repository) Update(db *gorm.DB, filter entity.Item, input entity.Item) (err error) {
+	//use select for update to lock selected data, so other transaction wont be access on the same time
 	if err = db.
 		Clauses(clause.Locking{Strength: "UPDATE"}).
 		Where(filter).

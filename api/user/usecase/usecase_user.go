@@ -33,6 +33,7 @@ func (u Usecase) GetList(param request.List) (res []entity.User, meta presenter.
 
 func (u Usecase) Create(param entity.User) (err error) {
 	db := u.DB.Begin()
+	//encode inputed password cause stored password is pares in base64
 	param.Password = base64.StdEncoding.EncodeToString([]byte(param.Password))
 
 	if err = u.Repo.Create(db, param); err != nil {
@@ -45,6 +46,7 @@ func (u Usecase) Create(param entity.User) (err error) {
 
 func (u Usecase) Update(id int64, param entity.User) (err error) {
 	db := u.DB.Begin()
+	//encode inputed password cause stored password is pares in base64
 	param.Password = base64.StdEncoding.EncodeToString([]byte(param.Password))
 
 	if err = u.Repo.Update(db, entity.User{ID: id}, param); err != nil {

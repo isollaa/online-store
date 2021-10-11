@@ -14,6 +14,7 @@ type Handler struct {
 func NewHandler(uc usecase.UsecaseContract) HandlerContract {
 	return &Handler{
 		Usecase: uc,
-		Name:    "Cart",
+		//set static name to use as feature differentiator on response message
+		Name: "Cart",
 	}
 }

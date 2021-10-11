@@ -13,6 +13,7 @@ type ItemContract interface {
 	UpdateQuantityItem(db *gorm.DB, id int64, quantity float64) (err error)
 }
 
+//use select for update to lock selected data, so other transaction wont be access on the same time
 func (repo Repository) GetItemForUpdate(db *gorm.DB, id int64) (res entity.Item, err error) {
 	if err = db.
 		Clauses(clause.Locking{Strength: "UPDATE"}).

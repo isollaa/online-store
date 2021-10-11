@@ -33,7 +33,7 @@ func (repo Repository) GetList(db *gorm.DB, param request.List) (res []entity.Ca
 	page := param.PerPage * (param.Page - 1)
 	if param.Search != "" {
 		formattedTextSearch := "%%" + param.Search + "%%"
-		query = query.Where("name LIKE ? OR quantity LIKE ?", formattedTextSearch, formattedTextSearch)
+		query = query.Where("user_id LIKE ? OR item_name LIKE ? OR quantity LIKE ?", formattedTextSearch, formattedTextSearch, formattedTextSearch)
 	}
 
 	if err := query.Count(&total).Error; err != nil {
@@ -46,8 +46,10 @@ func (repo Repository) GetList(db *gorm.DB, param request.List) (res []entity.Ca
 
 	var column string
 	switch param.Sort {
-	case "name":
-		column = "name"
+	case "user_id":
+		column = "user_id"
+	case "item_name":
+		column = "item_name"
 	case "quantity":
 		column = "quantity"
 	}

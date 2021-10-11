@@ -11,6 +11,7 @@ type LoginContract interface {
 }
 
 func (u Usecase) Login(user entity.User) (res string, err error) {
+	//encode inputed password cause stored password is pares in base64
 	user.Password = base64.StdEncoding.EncodeToString([]byte(user.Password))
 
 	if err = u.Repo.InjectAdmin(u.DB); err != nil {

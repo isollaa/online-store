@@ -21,8 +21,9 @@ func init() {
 	migrate.AutoMigrate(Orm)
 }
 
+//load env.json
 func loadEnvVars() {
-	viper.SetEnvPrefix("sagara")
+	viper.SetEnvPrefix("evermos")
 	errBind := viper.BindEnv("env")
 
 	if errBind != nil {
@@ -60,6 +61,7 @@ func connectDB() {
 		panic("failed to connect to database")
 	}
 
+	//show query if debug_mode = true
 	if viper.GetBool("database.debug_mode") {
 		Orm = db.Debug()
 		return

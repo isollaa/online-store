@@ -1,5 +1,6 @@
 package request
 
+//used for request param
 type List struct {
 	Search  string `json:"search"`
 	Sort    string `json:"sort"`

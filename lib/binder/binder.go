@@ -7,6 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+//bind list request and set default value
 func ValidateRequestList(ctx *gin.Context) (request.List, error) {
 	page, err := validator.SetDefaultQueryParamNumber(ctx, "page", "1")
 	if err != nil {

@@ -25,12 +25,14 @@ func (svc *service) Endpoints(e *gin.Engine) {
 	e.DELETE("/user/:id", middleware.Auth, svc.Handler.Delete)
 }
 
+//fill injected hander to route
 func New() registry.RouteContract {
 	return &service{
 		Handler: user.ApiHandler(),
 	}
 }
 
+//make sure to call this package to register this route
 func init() {
 	registry.RegisterRouter(New)
 }

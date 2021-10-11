@@ -7,6 +7,7 @@ import (
 	"online-store/config"
 )
 
+//inject repo n usecase into handler
 func ApiHandler() handler.HandlerContract {
 	repo := repository.NewRepository()
 	usecase := usecase.NewUsecase(config.Orm, repo)

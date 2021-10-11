@@ -16,11 +16,13 @@ const (
 	RESPONSE_ERROR_INVALID_PARAM_NUMBER_NOT_EMPTY = "should be a number and can't be empty"
 )
 
+//used to present default response
 type Default struct {
 	Message string      `json:"message"`
-	Data    interface{} `json:"data,omitempty"`
+	Data    interface{} `json:"data,omitempty"` //won't show if data is empty / null
 }
 
+//used to present response with metadata
 type List struct {
 	Message string      `json:"msg"`
 	Meta    Meta        `json:"meta"`
@@ -28,8 +30,8 @@ type List struct {
 }
 
 type Meta struct {
-	TotalData int `json:"total_data"`
-	TotalPage int `json:"total_page"`
-	Page      int `json:"page"`
-	PerPage   int `json:"per_page"`
+	TotalData int `json:"total_data"` // total data without pagination
+	TotalPage int `json:"total_page"` // total page based on per_page / limit
+	Page      int `json:"page"`       // current page
+	PerPage   int `json:"per_page"`   // total data per_page
 }
