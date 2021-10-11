@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"fmt"
 	"online-store/api/item/entity"
 	"online-store/lib/request"
 	"strings"
@@ -71,7 +72,9 @@ func (repo Repository) Update(db *gorm.DB, filter entity.Item, input entity.Item
 	if err = db.
 		Clauses(clause.Locking{Strength: "UPDATE"}).
 		Where(filter).
+		Where("deleted_at IS NULL").
 		Take(&filter).Error; err != nil {
+		err = fmt.Errorf("item with id %d not found", filter.ID)
 		return
 	}
 
@@ -89,5 +92,11 @@ func (repo Repository) Update(db *gorm.DB, filter entity.Item, input entity.Item
 }
 
 func (repo Repository) Delete(db *gorm.DB, filter entity.Item) (err error) {
-	return db.Model(filter).Where(filter).Update("deleted_at", time.Now()).Error
+	db = db.Model(filter).Where(filter).Where("deleted_at IS NULL").Update("deleted_at", time.Now())
+	if db.RowsAffected == 0 {
+		err = fmt.Errorf("item with id %d is not exist or has been deleted", filter.ID)
+		return
+	}
+
+	return db.Error
 }

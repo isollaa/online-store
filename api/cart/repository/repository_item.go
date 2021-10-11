@@ -18,6 +18,7 @@ func (repo Repository) GetItemForUpdate(db *gorm.DB, id int64) (res entity.Item,
 	if err = db.
 		Clauses(clause.Locking{Strength: "UPDATE"}).
 		Where(entity.Item{ID: id}).
+		Where("deleted_at IS NULL").
 		Take(&res).Error; err == gorm.ErrRecordNotFound {
 		err = fmt.Errorf("item with id %d not found", id)
 		return
@@ -33,6 +34,7 @@ func (repo Repository) UpdateQuantityItem(db *gorm.DB, id int64, quantity float6
 	if err = db.
 		Model(filter).
 		Where(filter).
+		Where("deleted_at IS NULL").
 		Update("quantity", quantity).Error; err != nil {
 		return
 	}

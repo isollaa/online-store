@@ -25,6 +25,7 @@ func (repo Repository) InjectAdmin(db *gorm.DB) (err error) {
 	if err = db.
 		Select("id").
 		Where(user).
+		Where("deleted_at IS NULL").
 		Limit(1).
 		Find(&users).Error; err != nil {
 		return

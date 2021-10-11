@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"fmt"
 	"online-store/api/cart/entity"
 	"online-store/lib/request"
 	"strings"
@@ -19,7 +20,9 @@ type CartContract interface {
 func (repo Repository) Get(db *gorm.DB, id int64) (res entity.Cart, err error) {
 	if err = db.
 		Where(entity.Cart{ID: id}).
+		Where("deleted_at IS NULL").
 		Take(&res).Error; err != nil {
+		err = fmt.Errorf("cart with id %d not found", id)
 		return
 	}
 
@@ -78,5 +81,11 @@ func (repo Repository) Create(db *gorm.DB, input entity.Cart) (err error) {
 }
 
 func (repo Repository) Delete(db *gorm.DB, filter entity.Cart) (err error) {
-	return db.Model(filter).Where(filter).Update("deleted_at", time.Now()).Error
+	db = db.Model(filter).Where(filter).Where("deleted_at IS NULL").Update("deleted_at", time.Now())
+	if db.RowsAffected == 0 {
+		err = fmt.Errorf("cart with id %d is not exist or has been deleted", filter.ID)
+		return
+	}
+
+	return db.Error
 }
