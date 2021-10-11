@@ -19,7 +19,7 @@ type service struct {
 
 func (svc *service) Endpoints(e *gin.Engine) {
 	e.POST("/login", svc.Handler.Login)
-	e.GET("/user", middleware.Auth, svc.Handler.GetList)
+	e.GET("/user", svc.Handler.GetList)
 	e.POST("/user", svc.Handler.Create)
 	e.PUT("/user/:id", middleware.Auth, svc.Handler.Update)
 	e.DELETE("/user/:id", middleware.Auth, svc.Handler.Delete)

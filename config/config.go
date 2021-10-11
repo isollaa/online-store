@@ -13,7 +13,6 @@ import (
 )
 
 var Orm *gorm.DB
-var Token string
 
 func init() {
 	loadEnvVars()
@@ -41,8 +40,6 @@ func loadEnvVars() {
 	if errRead != nil {
 		panic(fmt.Errorf("Fatal error config file: %s", errRead.Error()))
 	}
-
-	Token = viper.GetString("token")
 }
 
 func connectDB() {

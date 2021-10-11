@@ -3,7 +3,6 @@ package usecase
 import (
 	"encoding/base64"
 	"online-store/api/user/entity"
-	"online-store/config"
 )
 
 type LoginContract interface {
@@ -22,7 +21,7 @@ func (u Usecase) Login(user entity.User) (res string, err error) {
 		return
 	}
 
-	res, err = u.generateToken(user.ID, config.Token)
+	res, err = u.generateToken(user.ID)
 	if err != nil {
 		return
 	}

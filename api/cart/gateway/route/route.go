@@ -1,7 +1,7 @@
 package route
 
 import (
-	user "online-store/api/cart"
+	"online-store/api/cart"
 	"online-store/api/cart/gateway/handler"
 	"online-store/middleware"
 	"online-store/registry"
@@ -26,7 +26,7 @@ func (svc *service) Endpoints(e *gin.Engine) {
 //fill injected hander to route
 func New() registry.RouteContract {
 	return &service{
-		Handler: user.ApiHandler(),
+		Handler: cart.ApiHandler(),
 	}
 }
 

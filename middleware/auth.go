@@ -3,11 +3,11 @@ package middleware
 import (
 	"fmt"
 	"net/http"
-	"online-store/config"
 	"online-store/lib/conv"
 	"strings"
 
 	"github.com/gin-gonic/gin"
+	"github.com/spf13/viper"
 
 	jwt "github.com/dgrijalva/jwt-go"
 )
@@ -27,7 +27,7 @@ func Auth(ctx *gin.Context) {
 	}
 
 	parsedToken, err := jwt.Parse(token, func(token *jwt.Token) (interface{}, error) {
-		return []byte(config.Token), nil
+		return []byte(viper.GetString("signing_key")), nil
 	})
 	if err != nil {
 		vE := err.(*jwt.ValidationError)
